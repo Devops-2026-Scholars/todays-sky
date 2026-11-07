@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: weather
+resources:
+  - locations.yaml
+  - forecast.yaml
+  - gateway.yaml
+  - frontend.yaml
+configMapGenerator:
+  - name: cities
+    files:
+      - cities.json

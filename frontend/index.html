@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Today's Sky</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230f6e8c'/><circle cx='50' cy='42' r='16' fill='%23f4b942'/></svg>">
+</head>
+<body>
+  <main>
+    <p class="eyebrow">Practice sky for class</p>
+    <h1>Today's Sky</h1>
+    <p class="lead">Pick a city. The page asks the Front Desk. The Front Desk asks the City Book and the Sky Report.</p>
+    <div id="cities" class="cities" aria-label="Cities"></div>
+    <section id="card" class="card" aria-live="polite">
+      <p class="waiting">Pick a city to see the sky.</p>
+    </section>
+    <p class="footnote">This is a practice sky. It is not a live weather report. The number is in Celsius. 0 is ice. 30 is a hot day.</p>
+  </main>
+  <noscript>This page needs JavaScript. Turn it on, then reload the page.</noscript>
+  <script src="app.js"></script>
+</body>
+</html>

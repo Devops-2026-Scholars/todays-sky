@@ -1,0 +1,4 @@
+-r services/locations/requirements.txt
+-r services/forecast/requirements.txt
+-r services/gateway/requirements.txt
+pytest==8.3.4

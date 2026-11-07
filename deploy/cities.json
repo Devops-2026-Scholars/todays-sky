@@ -1,0 +1,44 @@
+[
+  {
+    "id": "lagos",
+    "name": "Lagos",
+    "country": "Nigeria",
+    "latitude": 6.5244,
+    "longitude": 3.3792
+  },
+  {
+    "id": "london",
+    "name": "London",
+    "country": "United Kingdom",
+    "latitude": 51.5074,
+    "longitude": -0.1278
+  },
+  {
+    "id": "new-york",
+    "name": "New York",
+    "country": "United States",
+    "latitude": 40.7128,
+    "longitude": -74.006
+  },
+  {
+    "id": "tokyo",
+    "name": "Tokyo",
+    "country": "Japan",
+    "latitude": 35.6762,
+    "longitude": 139.6503
+  },
+  {
+    "id": "nairobi",
+    "name": "Nairobi",
+    "country": "Kenya",
+    "latitude": -1.2921,
+    "longitude": 36.8219
+  },
+  {
+    "id": "paris",
+    "name": "Paris",
+    "country": "France",
+    "latitude": 48.8566,
+    "longitude": 2.3522
+  }
+]

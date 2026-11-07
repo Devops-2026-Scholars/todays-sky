@@ -1,0 +1,93 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: locations
+  labels:
+    app.kubernetes.io/name: locations
+    app.kubernetes.io/part-of: weather
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: locations
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: locations
+        app.kubernetes.io/part-of: weather
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: locations
+          image: weather-locations:1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8000
+          env:
+            - name: CITIES_PATH
+              value: /config/cities.json
+          startupProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 5
+            failureThreshold: 12
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+            - name: cities
+              mountPath: /config
+              readOnly: true
+      volumes:
+        - name: tmp
+          emptyDir: {}
+        - name: cities
+          configMap:
+            name: cities
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: locations
+  labels:
+    app.kubernetes.io/name: locations
+    app.kubernetes.io/part-of: weather
+spec:
+  selector:
+    app.kubernetes.io/name: locations
+  ports:
+    - name: http
+      port: 8000
+      targetPort: http
