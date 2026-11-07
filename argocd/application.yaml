@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: http://git-server.git.svc.cluster.local/weather.git
+    repoURL: https://github.com/Devops-2026-Scholars/todays-sky.git
     targetRevision: main
     path: deploy
   destination:

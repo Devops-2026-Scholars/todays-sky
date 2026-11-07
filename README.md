@@ -67,7 +67,7 @@ The rest of the guide uses these words.
 - A context is the name of the cluster kubectl will use. Ours is `docker-desktop`.
 - On the Kubernetes settings screen, the word kind is Docker's built-in starter. You do not install it. You do not type it.
 - Git is a notebook that remembers every save.
-- A push sends that notebook into the cluster.
+- A push sends that notebook to GitHub.
 - Argo CD is a web page. It reads the notebook and starts the programs. It shows you if they are healthy.
 
 ## 3. Before you start
@@ -406,9 +406,12 @@ Build them, then go to the next step.
 
 ## 14. Start the Git notebook
 
-Argo CD reads the lab from a Git notebook inside the cluster.
-This helper holds that notebook.
-Your Mac opens it at door 30090.
+This step is optional.
+This class keeps the notebook on GitHub.
+Argo CD reads that GitHub notebook.
+The lines below start a Git notebook inside the cluster.
+Use them only if your teacher says to.
+Your Mac would open that notebook at door 30090.
 
 ```bash
 kubectl apply -f lab/git-server.yaml
@@ -423,6 +426,8 @@ kubectl -n git get pods
 
 These name lines last for this window only.
 They do not change the Git settings on the Mac.
+The push sends the notebook to GitHub.
+Argo CD will read it from there.
 
 ```bash
 git init -b main
@@ -432,18 +437,21 @@ export GIT_COMMITTER_NAME="Student"
 export GIT_COMMITTER_EMAIL="student@example.com"
 git add .
 git commit -m "Add the weather lab"
-GIT_TERMINAL_PROMPT=0 git push http://127.0.0.1:30090/weather.git main
+ORIGIN=https://github.com/Devops-2026-Scholars/todays-sky.git
+git remote add origin "$ORIGIN"
+git push -u origin main
 ```
 
 > You should see: a list of file names in the commit.
 > You should see: a push line with `main`.
 
 If the commit says `nothing to commit`, that is fine.
-Run the push line anyway.
+If Git says `remote origin already exists`, skip the add line.
+Then run the push line.
 
-If the push asks you to type a password, press Control+C.
-Go to the fix page.
+If the push asks you to sign in, use your GitHub account.
 Do not type your Mac password into Git.
+If you cannot sign in, tell your teacher.
 
 ## 16. Ask Argo CD to run the app
 
@@ -564,7 +572,7 @@ In the first Terminal window, run:
 ```bash
 git add deploy/cities.json
 git commit -m "Add Accra to the city list"
-GIT_TERMINAL_PROMPT=0 git push http://127.0.0.1:30090/weather.git main
+git push origin main
 ```
 
 > You should see: a commit line.
@@ -677,7 +685,7 @@ kubectl port-forward svc/argocd-server -n argocd 8088:80
 Then open http://localhost:8088
 
 The weather page stays on http://localhost:30080.
-The Git notebook stays on http://127.0.0.1:30090.
+The optional Git notebook stays on http://127.0.0.1:30090.
 
 ### Argo CD pods stay unready
 
@@ -748,6 +756,17 @@ kubectl -n git get pods
 
 ### Git push does not work
 
+The class notebook is on GitHub.
+The push line is `git push origin main`.
+
+If Git says `Authentication failed`, you are not signed in
+to the class GitHub account.
+Tell your teacher.
+Do not type your Mac password.
+
+The notes below are only for the optional Git notebook
+inside the cluster.
+
 ```bash
 kubectl -n git get pods
 kubectl -n git logs deploy/git-server --tail=30
@@ -786,7 +805,7 @@ Then run:
 ```bash
 git add deploy/cities.json
 git commit -m "Fix the city list"
-GIT_TERMINAL_PROMPT=0 git push http://127.0.0.1:30090/weather.git main
+git push origin main
 ```
 
 Click Refresh in Argo CD.
@@ -916,14 +935,15 @@ Each microservice lives in its own folder.
 - `frontend` is the web page.
 - `deploy` holds the setup files Argo CD reads.
 - `lab` holds the Git helper.
-- `argocd/application.yaml` points Argo CD at the notebook.
+- `argocd/application.yaml` points Argo CD at the GitHub notebook.
 
 Inside the cluster, each program has its own pod.
 Each program can use door 8000.
 They do not bump into each other.
 The web page uses door 8080 inside its pod.
 You open it on the Mac at door 30080.
-The Git notebook uses door 30090 on the Mac.
+The class notebook is on GitHub.
+The optional Git notebook uses door 30090 on the Mac.
 
 The web page never calls the City Book by itself.
 It calls `/api/...` on its own address.
@@ -984,7 +1004,8 @@ Tools for this lab:
 - Do not click Reset cluster. That deletes the cluster.
 
 The weather page is http://localhost:30080.
-The Git notebook is http://127.0.0.1:30090.
+The class notebook is the GitHub repo todays-sky.
+The optional local notebook is http://127.0.0.1:30090.
 Argo CD is http://localhost:8080 while the port-forward is running.
 
 To rebuild the print guide after you edit this README:
