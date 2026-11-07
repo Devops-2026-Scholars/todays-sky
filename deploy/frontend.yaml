@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/name: frontend
     app.kubernetes.io/part-of: weather
 spec:
-  replicas: 3
+  replicas: 2
   revisionHistoryLimit: 2
   selector:
     matchLabels:
