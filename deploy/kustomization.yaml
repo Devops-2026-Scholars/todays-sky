@@ -10,3 +10,6 @@ configMapGenerator:
   - name: cities
     files:
       - cities.json
+  - name: frontend-nginx
+    files:
+      - nginx.conf
